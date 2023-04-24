@@ -6,7 +6,7 @@
 /*   By: isouaidi <isouaidi@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 16:35:03 by isouaidi          #+#    #+#             */
-/*   Updated: 2023/04/20 19:11:58 by isouaidi         ###   ########.fr       */
+/*   Updated: 2023/04/24 16:36:27 by isouaidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,42 +55,42 @@ char	*this_line(char *save)
 	}
 	if (save[i] == '\n')
 		line[i++] = '\n';
-	line[i] = '\0';
+	line[i++] = '\0';
 	return (line);
 }
 
-char	*ft_free(char *buffer, char *reserve)
+char	*ft_free(char *save, char *buffer)
 {
 	char	*temp;
 
-	temp = ft_strjoin(buffer, reserve);
-	free(buffer);
+	temp = ft_strjoin(save, buffer);
+	free(save);
 	return (temp);
 }
 
-char	*read_all(int fd, char *res)
+char	*read_all(int fd, char *save)
 {
 	char	*buffer;
 	int		bytes;
 
-	if (!res)
-	res = ft_strdup("");
+	if (!save)
+	save = ft_strdup("");
 	buffer = malloc(sizeof(char) * BUFFER_SIZE + 1);
 	bytes = 42;
-	while (bytes && !ft_strchr(res, '\n'))
+	while (bytes && !ft_strchr(save, '\n'))
 	{
 		bytes = read(fd, buffer, BUFFER_SIZE);
 		if (bytes == -1)
 		{
 			free(buffer);
-			free(res);
+			free(save);
 			return (NULL);
 		}
 		buffer[bytes] = 0;
-		res = ft_free(res, buffer);
+		save = ft_free(save, buffer);
 	}
 	free(buffer);
-	return (res);
+	return (save);
 }
 
 char	*get_next_line(int fd)
